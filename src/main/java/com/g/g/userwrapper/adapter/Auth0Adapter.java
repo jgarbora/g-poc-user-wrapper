@@ -67,31 +67,27 @@ public class Auth0Adapter {
 
     public ResponseEntity<GetUserResponse> getUser(String userId) {
         String url = String.format("%s/api/v2/users/%s", baseUrl, userId);
-        log.debug("getUser {}", url);
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(buildHeadersForAuth0Api()), GetUserResponse.class);
     }
 
     public ResponseEntity<CreateUserResponse> createUser(CreateUserRequest createUserRequest) {
         String url = String.format("%s/api/v2/users", baseUrl);
-        log.debug("createUser {}, request body {}", url, createUserRequest);
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(createUserRequest, buildHeadersForAuth0Api()), CreateUserResponse.class);
     }
 
     public ResponseEntity<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest, String userId) {
         String url = String.format("%s/api/v2/users/%s", baseUrl, userId);
-        log.debug("updateUser {}, request body {}", url, updateUserRequest);
         return restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(updateUserRequest, buildHeadersForAuth0Api()), UpdateUserResponse.class);
     }
 
     public ResponseEntity<DeleteUserResponse> deleteUser(String userId) {
         String url = String.format("%s/api/v2/users/%s", baseUrl, userId);
-        log.debug("deleteUser {}", url);
+
         return restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(buildHeadersForAuth0Api()), DeleteUserResponse.class);
     }
 
     public ResponseEntity<AssignRolesToAUserResponse> assignRolesToAUser(AssignRolesToAUserRequest assignRolesToAUserRequest, String userId) {
         String url = String.format("%s/api/v2/users/%s/roles", baseUrl, userId);
-        log.debug("createUser {}, request body {}", url, assignRolesToAUserRequest);
         return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(assignRolesToAUserRequest, buildHeadersForAuth0Api()), AssignRolesToAUserResponse.class);
     }
 }

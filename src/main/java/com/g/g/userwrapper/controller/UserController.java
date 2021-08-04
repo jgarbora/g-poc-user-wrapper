@@ -25,7 +25,7 @@ public class UserController {
         return auth0Adapter.getUser(userId);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
         return auth0Adapter.createUser(createUserRequest);
     }
