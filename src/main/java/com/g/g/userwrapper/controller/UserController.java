@@ -9,6 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
+import static com.g.g.userwrapper.util.Constants.ROLE_MAP;
+
 @RestController
 @Slf4j
 @RequestMapping(path = "/api/v0/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,8 +30,16 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
-        return auth0Adapter.createUser(createUserRequest);
+    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserCustomRequest createUserRequest) {
+        ResponseEntity<CreateUserResponse> createUserResponse = auth0Adapter.createUser(createUserRequest);
+
+        if (ROLE_MAP.containsKey(createUserRequest.role)) {
+            AssignRolesToAUserRequest request = new AssignRolesToAUserRequest();
+            request.roles = Collections.singletonList(ROLE_MAP.get(createUserRequest.role));
+            auth0Adapter.assignRolesToAUser(request, createUserResponse.getBody().getUserId());
+        }
+
+        return createUserResponse;
     }
 
     @PatchMapping("/{userId}")
