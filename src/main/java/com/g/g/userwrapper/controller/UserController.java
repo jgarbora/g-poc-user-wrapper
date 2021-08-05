@@ -31,11 +31,16 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserCustomRequest createUserRequest) {
+
+        // this is the issue ... when you use the same DTO as the provider ... Auth0 fails if you sent role field
+        String role = createUserRequest.role;
+        createUserRequest.role = null;
+
         ResponseEntity<CreateUserResponse> createUserResponse = auth0Adapter.createUser(createUserRequest);
 
-        if (ROLE_MAP.containsKey(createUserRequest.role)) {
+        if (ROLE_MAP.containsKey(role)) {
             AssignRolesToAUserRequest request = new AssignRolesToAUserRequest();
-            request.roles = Collections.singletonList(ROLE_MAP.get(createUserRequest.role));
+            request.roles = Collections.singletonList(ROLE_MAP.get(role));
             auth0Adapter.assignRolesToAUser(request, createUserResponse.getBody().getUserId());
         }
 
