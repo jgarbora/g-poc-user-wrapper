@@ -40,7 +40,7 @@ public class UserController {
         return auth0Adapter.deleteUser(userId);
     }
 
-    @DeleteMapping("/{userId}/roles")
+    @PostMapping("/{userId}/roles")
     public ResponseEntity<AssignRolesToAUserResponse> assignRolesToAUser(@RequestBody AssignRolesToAUserRequest assignRolesToAUserRequest, @PathVariable String userId) {
         return auth0Adapter.assignRolesToAUser(assignRolesToAUserRequest, userId);
     }
