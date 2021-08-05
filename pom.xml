@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>com.github.jgarbora</groupId>
 			<artifactId>auth0-dtos</artifactId>
-			<version>-SNAPSHOT</version>
+			<version>dec8778ea7</version>
 		</dependency>
 
 		<dependency>
